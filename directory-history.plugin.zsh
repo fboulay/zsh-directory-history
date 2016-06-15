@@ -1,3 +1,9 @@
+#!/usr/bin/env zsh
+
+plugin_dir=${0:a:h}
+alias dirhist=${plugin_dir}/dirhist
+alias dirlog=${plugin_dir}/dirlog
+
 # Generates a new history for the current directory
 function generate_history() {
   history_dir=("${(@ps.\0\n.)$(dirhist -a -d $PWD)}")
@@ -47,6 +53,7 @@ directory-history-search-forward() {
 
   # Get command and put it into the buffer
   COMMAND=$history_dir[$INDEX_HISTORY]
+
   zle kill-whole-line
   BUFFER=$COMMAND
   zle end-of-line
@@ -64,6 +71,7 @@ directory-history-search-backward() {
   else
     # Get command and put it into the buffer
     COMMAND=$history_dir[$INDEX_HISTORY]
+
     zle kill-whole-line
     BUFFER=$COMMAND
     zle end-of-line
