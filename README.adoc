@@ -7,6 +7,8 @@ https://asciinema.org/a/7z5h32eutd5fk1ec5ujlwyw0p[image:https://asciinema.org/a/
 Originally forked from https://github.com/tymm/zsh-directory-history[tymm repository]. +
 The purpose of this fork is to make it work with https://github.com/zsh-users/antigen[antigen].
 
+This plugins is based on https://github.com/zsh-users/zsh-history-substring-search[history-substring-search] zsh plugin. It exposes the same functions : `history-substring-search-up` and `history-substring-search-down`
+
 == DESCRIPTION
 
 *zsh-directory-history* is a zsh plugin giving you a history which is sensitive to the directory you are in. +
@@ -38,15 +40,39 @@ For example:
 +
 [source,shell]
 ....
- # Bind up/down arrow keys to navigate through your history
- bindkey '\e[A' directory-history-search-backward
- bindkey '\e[B' directory-history-search-forward
+ ## Arrow Keys ###########################################
 
+ # OPTION 1: for most recent systems
+ zmodload zsh/terminfo
+ bindkey "$terminfo[kcuu1]" directory-history-search-backward
+ bindkey "$terminfo[kcud1]" directory-history-search-forward
+
+ # OPTION 2: for iTerm2 running on Apple MacBook laptops
+ zmodload zsh/terminfo
+ bindkey "$terminfo[cuu1]" directory-history-search-backward
+ bindkey "$terminfo[cud1]" directory-history-search-forward
+
+ # OPTION 3: for old systems like Ubuntu 12.04, Fedora 21, and MacOSX 10.9
+ bindkey '^[[A' directory-history-search-backward
+ bindkey '^[[B' directory-history-search-forward
+
+ ## EMACS mode ###########################################
+
+ bindkey -M emacs '^P' directory-history-search-backward
+ bindkey -M emacs '^N' directory-history-search-forward
+
+ ## VI mode ##############################################
+
+ bindkey -M vicmd 'k' directory-history-search-backward
+ bindkey -M vicmd 'j' directory-history-search-forward
+....
+
+if you want to map the ``history-substring-search-up` and `history-substring-search-up` function, you could do:
+[source,shell]
+....
  # Bind CTRL+k and CTRL+j to substring search
  bindkey '^j' history-substring-search-up
  bindkey '^k' history-substring-search-down
 ....
 
-
-It is possible that `\e[A` and `\e[B` will not work for you. Look https://github.com/zsh-users/zsh-history-substring-search[here] under 2. for more information.
 
